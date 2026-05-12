@@ -77,3 +77,15 @@ jobs:
            -Dsonar.projectKey=${PROJECT_KEY_SONAR} \
            -Dsonar.organization=${ORGANIZATION_SONAR} \
            -Dsonar.login=${SONAR_TOKEN}
+  subir-dockerHub:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Build Docker image
+        run: docker build -t tuusuario/rentcar-back:latest .
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push Docker image
+        run: docker push tuusuario/rentcar-back:latest
